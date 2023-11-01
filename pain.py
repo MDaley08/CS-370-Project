@@ -26,7 +26,7 @@ def mp4_to_mp3(input_file, *args):
             print("can't have more than one output fill name")
 
     input = ffmpeg.input(input_file)
-    audio = input.audio.filter("aecho", 0.8, 0.9, 1000, 0.3)
+    audio = input.audio.filter("anull")
     out = ffmpeg.output(input, out_name)
     ffmpeg.run(out)
     return out_name
