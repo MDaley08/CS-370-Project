@@ -1,13 +1,12 @@
 import uvicorn
 import whisper
 import os
-import time
 from fastapi import FastAPI, HTTPException
 from pytube import YouTube
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import SRTFormatter
 
-async def download_audio(url:str, download_path:str):
+def download_audio(url:str, download_path:str):
 
     try:
         yt = YouTube(url)
@@ -23,8 +22,10 @@ async def download_audio(url:str, download_path:str):
     except Exception as e:
         raise HTTPException(status_code=400, detail="Error downloading video: " + str(e))
     
+    return os.path.join(download_path, file_name)
+    
 
-async def download_captions(url:str, download_path:str):
+def download_captions(url:str, download_path:str):
     formatter = SRTFormatter()
 
     try:
@@ -44,50 +45,63 @@ async def download_captions(url:str, download_path:str):
         raise HTTPException(status_code=400, detail="Error extracting transcript from: " + str(e))
     
 
-async def transcribe_audio(file_name:str, file_path:str):
+def transcribe_audio(input_file:str, output_path:str): #eventually add a check for if file is mp3
     try:
         model = whisper.load_model("base")
-        result = model.transcribe(file_name)
+        result = model.transcribe(input_file)
     except FileNotFoundError:
-        print("%s file was not found ", file_name)
+        print("%s file was not found ", input_file)
+
+    try:
+        file_name = input_file.split('/')[-1]
+        file_name = file_name.split('.')[0]
+        file_path = os.path.join(output_path, file_name)
+        with open(file_path, 'w', encoding='utf-8') as out_file:
+            out_file.write(result["text"])
+
+    except FileNotFoundError:
+        print("%s this dir can't be accessed ", output_path)
+        
 
 app = FastAPI()
 
 @app.get("/download")
 
-async def download_data():
+async def main():
     audio_dir_name = 'audio'
     cap_dir_name = 'captions'
+    whisper_dir_name = 'whisper_transcripts'
     current_dir = os.getcwd()
     audio_dir_path = os.path.join(current_dir, audio_dir_name)
     cap_dir_path = os.path.join(current_dir, cap_dir_name)
+    whisper_dir_path = os.path.join(current_dir, whisper_dir_name)
 
     if(not(os.path.exists(audio_dir_path))):
         os.makedirs(audio_dir_path)
     if(not(os.path.exists(cap_dir_path))):
         os.makedirs(cap_dir_path)
+    if(not(os.path.exists(whisper_dir_path))):
+        os.makedirs(whisper_dir_path)
 
-    link = 'https://www.youtube.com/watch?v=bNKdlnoAqIs&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=27'
+    youtube_links = ['https://www.youtube.com/watch?v=bNKdlnoAqIs&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=27',
+                    'https://www.youtube.com/watch?v=RldpC8a9Zv4&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=31',
+                    'https://www.youtube.com/watch?v=aDzm9_vthFo&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=32',
+                    'https://www.youtube.com/watch?v=6in8fx1Tc38&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=37',
+                    'https://www.youtube.com/watch?v=n9adLsXTpZQ&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=63',
+                    'https://www.youtube.com/watch?v=_Lx5VmAdZSI&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=54',
+                    'https://www.youtube.com/watch?v=EIVTf-C6oQo&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=58',
+                    'https://www.youtube.com/watch?v=FwEKCP7DVFc&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=56',
+                    'https://www.youtube.com/watch?v=cU3rmlDgfbg&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=60',
+                    'https://www.youtube.com/watch?v=Du-RQu4soIs&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=61'
+                    ]
+    
+    for i in range(len(youtube_links)):
+        current_link = youtube_links[i]
+        download_captions(current_link, cap_dir_path)
+        download_audio(current_link, audio_dir_path)
 
-    start_time = time.time()
-    await download_audio(link, audio_dir_path)
-    await download_captions(link, cap_dir_path)
+    files = os.listdir(audio_dir_path) # accessing all files in audio dir
+    in_file = os.path.join(audio_dir_path, files[0]) #grabs first file in the directory 
 
-    print("--- %s seconds ---" % (time.time() - start_time))
+    transcribe_audio(in_file,whisper_dir_path) 
 
-# def main():
-#     start_time = time.time()
-#     link = 'https://www.youtube.com/watch?v=Du-RQu4soIs&list=PLI1yx5Z0Lrv77D_g1tvF9u3FVqnrNbCRL&index=61'
-#     src = YouTube(link)
-#     audio = src.streams.filter(only_audio=True).first()
-#     file_name = 'test1.mp3'
-#     output = audio.download(output_path=dir_path, filename=file_name)
-
-#     file_path = os.path.join(dir_path, file_name )
-
-#     model = whisper.load_model("base")
-#     result = model.transcribe(file_path)
-
-#     print(result["text"])
-
-#     print("--- %s seconds ---" % (time.time() - start_time))
