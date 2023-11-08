@@ -22,7 +22,7 @@ def download_videos():
 
     if(not(os.path.exists(vid_dir_path))):
         os.makedirs(vid_dir_path)
-        
+
     youtube_links = ['https://www.youtube.com/watch?v=bNKdlnoAqIs',
                      'https://www.youtube.com/watch?v=RldpC8a9Zv4',
                      'https://www.youtube.com/watch?v=aDzm9_vthFo',
@@ -31,7 +31,7 @@ def download_videos():
                      'https://www.youtube.com/watch?v=_Lx5VmAdZSI',
                      'https://www.youtube.com/watch?v=EIVTf-C6oQo',
                      'https://www.youtube.com/watch?v=FwEKCP7DVFc',
-                     'https://www.youtube.com/watch?v=cU3rmlDgfbg',
+                     'https://www.youtube.com/watch?v=FTWOBNTWLb4',
                      'https://www.youtube.com/watch?v=Du-RQu4soIs'
                      ]
 
