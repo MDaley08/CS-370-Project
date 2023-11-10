@@ -4,8 +4,6 @@ import os
 translator = GoogleTranslator(source='en', target='german')
 trs_text = translator.translate('Hello World')
 
-file = open('captions\Bill Gates.txt')
-
 trs_dir_name = 'translations'
 current_dir = os.getcwd()
 trs_dir_path = os.path.join(current_dir, trs_dir_name)
