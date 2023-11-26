@@ -1,0 +1,117 @@
+ Her name is Francis Hogan. That is a fact that Facebook has been anxious to know since last month
+when an anonymous former employee filed complaints with federal law enforcement. The complaints say
+Facebook's own research shows that it amplifies hate, misinformation and political unrest, but the
+company hides what it knows. One complaint alleges that Facebook's Instagram harms teenage girls.
+What makes Hogan's complaints unprecedented is the trove of private Facebook research she took when
+she quit in May. The documents appeared first last month in the Wall Street Journal, but tonight
+Francis Hogan is revealing her identity to explain why she became the Facebook whistleblower. The
+story will continue in a moment. The thing I saw Facebook over and over again was there were
+conflicts of interest between what was good for the public and what was good for Facebook. And
+Facebook over and over again shows to optimize for its own interests like making more money. Francis
+Hogan is 37, a data scientist from Iowa, with a degree in computer engineering and a Harvard
+master's degree in business. For 15 years, she's worked for companies including Google and
+Pinterest. I've seen a bunch of social networks and it was substantially worse than Facebook than
+anything I'd seen before. You know, someone else might have just quit and moved on. And I wonder why
+you take this stand. Imagine you know what's going on on Facebook and you know no one on the outside
+knows. I knew what my future looked like if I continued to stay inside of Facebook, which is person
+after person after person has tackled this inside of Facebook and ground themselves to the ground.
+When and how did it occur to you to take all of these documents out of the company? At some point in
+2021, I realized, okay, I'm going to have to do this in a systemic way and I have to get out enough
+that no one can question that this is real. She secretly copied tens of thousands of pages of
+Facebook internal research. She says evidence shows that the company is lying to the public about
+making significant progress against hate, violence and misinformation. One study she found from this
+year says, we estimate that we may action as little as 3 to 5% of hate and about 6 tenths of 1% of
+violence and incitement on Facebook despite being the best in the world at it. To quote from another
+one of the documents you brought out, we have evidence from a variety of sources that hate speech,
+divisive political speech and misinformation on Facebook and the family of apps are affecting
+societies around the world. When we live in an information environment that is full of angry,
+hateful, polarizing content, it erodes our civic trust, it erodes our faith in each other, it erodes
+our ability to want to care for each other. The version of Facebook that exists today is tearing our
+societies apart and causing ethnic violence around the world. Ethnic violence, including me and Mar
+in 2018, when the military used Facebook to launch a genocide. The first quarter of 2019. Francis
+Hogan told us she was recruited by Facebook in 2019. She says she agreed to take the job only if she
+could work against misinformation because she had lost a friend to online conspiracy theories. I
+never wanted anyone to feel the pain that I had felt and I had seen how high the stakes were in
+terms of making sure there was high quality information on Facebook. At headquarters, she was
+assigned to civic integrity which worked on risks to elections including misinformation. But after
+this past election, there was a turning point. They told us we're dissolving civic integrity. Like
+they basically said, oh, we made it through the election. There wasn't riots. We can get rid of
+civic integrity now. Fast forward a couple of months we got the insurrection. And when they got rid
+of civic integrity, it was the moment where I was like, I don't trust that they're willing to
+actually invest with me to be invested to keep Facebook from being dangerous. Facebook says the work
+of civic integrity was distributed to other units. Hogan told us the root of Facebook's problem is
+in a change that it made in 2018 to its algorithms, the programming that decides what you see on
+your Facebook newsfeed. So you know, you have your phone. You might see only 100 pieces of content
+if you sit and scroll off for, you know, five minutes. So if Facebook has thousands of options, it
+could show you. The algorithm picks from those options based on the kind of content you've engaged
+with the most in the past. And one of the consequences of how Facebook is picking out that content
+today is that it is optimizing for content that gets engagement or reaction. But its own research is
+showing the content that is hateful, that is divisive, that is polarizing. It's easier to inspire
+people to anger than it is to other emotions. Misinformation, angry content is enticing to people
+and keeps them on the platform. Yes. Facebook has realized that if they change the algorithm to be
+safer, people will spend less time on the site, they'll click on less ads, they'll make less money.
+Howgen says Facebook understood the danger to the 2020 election, so it turned on safety systems to
+reduce misinformation. But many of those changes, she says, were temporary. And as soon as the
+election was over, they turned them back off or they changed the settings back to what they were
+before to prioritize growth over safety. And that really feels like a betrayal of democracy to me.
+Facebook says some of the safety systems remained. But after the election, Facebook was used by some
+to organize the January 6th insurrection. Prosecutor site Facebook posts as evidence, photos of
+armed partisans and text, including by bullet or ballot, restoration of the republic is coming.
+Extremists used many platforms, but Facebook is a recurring theme. After the attack, Facebook
+employees raged on an internal message board, copied by Howgen. Haven't we had enough time to figure
+out how to manage discourse without enabling violence? We looked for positive comments and found
+this. I don't think our leadership team ignores data, ignores dissent, ignores truth. But that drew
+this reply. Welcome to Facebook. I see you just joined in November 2020. We have been watching
+wishy-washy actions of company leadership for years now. Colleagues cannot conscience, working for a
+company that does not do more to mitigate the negative effects of its platform. Facebook essentially
+amplifies the worst of human nature. It's one of these unfortunate consequences. Right? No one at
+Facebook is malevolent. But the incentives are misaligned, where Facebook makes more money when you
+consume more content. People enjoy engaging with things that listen to emotional reaction and the
+more anger that they get exposed to, the more they interact and more they consume. That dynamic led
+to a complaint to Facebook by major political parties across Europe. This 2019 internal report
+obtained by Howgen says that the parties feel strongly that the change to the algorithm has forced
+them to skew negative in their communications on Facebook, leading them into more extreme policy
+positions. The European political parties were essentially saying to Facebook, the way you've
+written your algorithm is changing the way we lead our countries. Yes. You are forcing us to take
+positions that we don't like, that we know are bad for society. And you know, if we don't take those
+positions, we won't win in the marketplace of social media. Evidence of harm, she says, extends to
+Facebook's Instagram app. One of the Facebook internal studies that you found talks about how
+Instagram harms teenage girls. Oh, yeah. One study says 13.5% of teen girls say Instagram makes
+thoughts of suicide worse. And what's super tragic is Facebook's own research says, as these young
+women begin to consume this eating disorder content, they get more and more depressed and it
+actually makes them use the app more. And so they end up in this feedback cycle where they hate
+their bodies more and more. Facebook's own research says it is not just that Instagram is dangerous
+for teenagers that are harms teenagers, it's that it is distinctly worse than other forms of social
+media. Facebook said just last week, it would postpone plans to create an Instagram for younger
+children. Last month, Hougan's lawyers filed at least eight complaints with the Securities and
+Exchange Commission which enforces the law in financial markets. The complaints compare the internal
+research with the company's public face. Often that of CEO Mark Zuckerberg here testifying remotely
+to Congress last March. We remove content that could lead to imminent real-world harm. We've built
+an unprecedented third party fact checking program. The system isn't perfect, but it's the best
+approach that we've found to address misinformation in line with our country's values. One of
+France's Hougan's lawyers is John Ty. He's the founder of a Washington legal group called
+Whistleblower Aid. What is the legal theory behind going to the SEC? What laws are you alleging have
+been broken? As a publicly traded company, Facebook is required to not lie to its investors or even
+with hold material information. So the SEC regularly brings enforcement actions alleging that
+companies like Facebook and others are making material misstatements and emissions that affect
+investors adversely. One of the things that Facebook might alleges is that she stole company
+documents. The Dodd-Frank Act passed over ten years ago at this point, created an office of the
+Whistleblower inside the SEC. And one of the provisions of that law says that no company can
+prohibit its employees from communicating with the SEC and sharing internal corporate documents with
+the SEC. I have a lot of empathy for Mark, and Mark has never set out to make a hateful platform.
+But he has allowed choices to be made where the side effects of those choices are that hateful,
+polarizing content gets more distribution, more reach. Facebook declined an interview, but in a
+written statement to 60 minutes it said, every day our teams have to balance protecting the right of
+billions of people to express themselves openly with the need to keep our platform a safe and
+positive place. We continue to make significant improvements to tackle the spread of misinformation
+and harmful content. To suggest we encourage bad content and do nothing is just not true. If any
+research had identified an exact solution to these complex challenges, the tech industry,
+governments and society would have solved them a long time ago. Facebook is a $1 trillion company.
+Just 17 years old, it has 2.8 billion users, which is 60 percent of all internet connected people on
+earth. Facebook is now planning to testify before Congress this week. She believes the federal
+government should impose regulations. Facebook is demonstrated. They cannot act independently.
+Facebook over and over again has shown it uses profit over safety. It is subsidizing. It is paying
+for its profits with our safety. I'm hoping that this will have had a big enough impact on the
+world, that they get the fortitude and the motivation to actually go put those regulations into
+place. That's my home. More from the Facebook whistleblower. Publishers? No. You are more likely to
+engage with angry content. At 60MinutesOverTime.com sponsored by Colorguard.
