@@ -29,40 +29,32 @@ def get_captions(url:str):
     except Exception as e:
         400, "Error extracting transcript from: " + str(e)
 
-def translate_text(input_file:str, output_path:str, lang: str):
+def translate_line(input_str: str, lang: str):
 
     translator = GoogleTranslator(source= 'english', target=lang)
+    translated_line = translator.translate(input_str)
 
-    try: #try to open our caption file
-        in_file = open(input_file, 'r', encoding="utf8") #opening file to read
-    except FileNotFoundError:
-        print("%s file was not found " % input_file)
-
-    try: #try to create a new file to store translation
-        out_file_name = (input_file.split('/')[-1]).split('.')[0] + ' translation.txt' # we do a split incase file is abs path then take old name
-        out_file_path = os.path.join(output_path, out_file_name)
-        out_file = open(out_file_path, 'w', encoding='utf8')
-    except FileNotFoundError:
-        print("%s this dir can't be accessed " % output_path)
-        
-    for i in in_file.readlines(): #reading all files in the 'captions' directory
-        translated_line = translator.translate(i)
-        out_file.write(translated_line+'\n')
-
-    print('%s has be sucessfully translate' % input_file)
-    in_file.close()
-    out_file.close()
-
+    return translated_line
 
 ### FRONT END ###
 import streamlit as st
+import streamlit_scrollable_textbox as stx
 from transformers import pipeline
 
-text = st.text_area('Enter a video url!')
+text = st.text_area('Enter a YouTube video url! (shorts not allowed)')
 submit = st.button('Generate')  
 if submit:
     captions = get_captions(text)
     
+    caption_string = ""
+    translated_string = ""
+    bar = st.progress(0, text='Translating text...')
     for i in range(len(captions)): #prints captions
-        st.write(captions[i]["text"])
-    
+        caption_string += captions[i]["text"]
+        translated_string += translate_line(captions[i]["text"], 'ro')
+        percent = i / len(captions)
+        bar.progress(percent, text='Translating text... '+str(i)+' out of '+str(len(captions))+ " lines")
+
+    bar.progress(100, text='Done! '+str(len(captions))+' out of '+str(len(captions))+ " lines")
+    stx.scrollableTextbox(caption_string)
+    stx.scrollableTextbox(translated_string)
