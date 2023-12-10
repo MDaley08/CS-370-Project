@@ -46,15 +46,27 @@ submit = st.button('Generate')
 if submit:
     captions = get_captions(text)
     
+    col1, col2, col3 = st.columns(3)
+    col1.header("Original")
+    col2.header("Translated")
+    col3.header("Timestamp")
+
     caption_string = ""
     translated_string = ""
+
     bar = st.progress(0, text='Translating text...')
     for i in range(len(captions)): #prints captions
-        caption_string += captions[i]["text"]
-        translated_string += translate_line(captions[i]["text"], 'ro')
+        caption_line = captions[i]["text"]
+        translated_line = translate_line(captions[i]["text"], 'de')
+
+        caption_string += caption_line
+        translated_string += translated_line
+
         percent = i / len(captions)
         bar.progress(percent, text='Translating text... '+str(i)+' out of '+str(len(captions))+ " lines")
 
+        col1.write(captions[i]["text"], use_column_width=True) #original
+        col2.write(translated_line, use_column_width=True) #translated
+        col3.write(captions[i]["start"], use_column_width=True) #timestamps
+
     bar.progress(100, text='Done! '+str(len(captions))+' out of '+str(len(captions))+ " lines")
-    stx.scrollableTextbox(caption_string)
-    stx.scrollableTextbox(translated_string)
