@@ -55,8 +55,7 @@ def download_captions(url:str, download_path:str):
 def sep_audio(video:str, output_path): #seperates audio from video file
 
     try:
-        input = ffmpeg.input(video)
-        audio = input.audio.filter("anull")
+        input = ffmpeg.input(video).audio
     except FileNotFoundError:
         print("%s file couldn't be accessed"%video)
     
@@ -65,12 +64,29 @@ def sep_audio(video:str, output_path): #seperates audio from video file
     file_path = os.path.join(output_path, file_name)
 
     try:
-        output = ffmpeg.output(audio, file_path)
+        output = ffmpeg.output(input, file_path)
         output.run()
         return file_path
     except:
         print("error creating audio file")
 
+def sep_video(video:str, output_path): #seperates audio from video file
+
+    try:
+        input = ffmpeg.input(video).video
+    except FileNotFoundError:
+        print("%s file couldn't be accessed"%video)
+    
+    temp = video.split('/')[-1] #gets last element if a file path
+    file_name = temp.split('.')[0] + ' vid' + '.mp4'
+    file_path = os.path.join(output_path, file_name)
+
+    try:
+        output = ffmpeg.output(input, file_path)
+        output.run()
+        return file_path
+    except:
+        print("error creating video file")
 
 def transcribe_audio(input_file:str, output_path:str): #eventually add a check for if file is mp3
     try:
@@ -116,6 +132,7 @@ def translate_text(input_file:str, output_path:str, lang: str):
     print('%s has be sucessfully translated' % input_file)
     in_file.close()
     out_file.close()
+    return out_file_path
 
 def text_to_speech(input_file:str, output_path:str):
     try:
@@ -135,70 +152,72 @@ def text_to_speech(input_file:str, output_path:str):
 
     output = gTTS(text= in_text, lang= language)
     output.save(out_file_path)
+    return out_file_path
 
-def get_captions(url:str):
-
-    formatter = SRTFormatter()
-
-    try:
-        yt = YouTube(url)
-        vid_id = url.split("v=")[1]
-        caption = YouTubeTranscriptApi.get_transcript(vid_id)
-        return caption
-        srt_formatted = formatter.format_transcript(caption)
-        file_name = yt.title + '.srt'
-        file_path = os.path.join(download_path, file_name)
-        with open(file_path, 'w', encoding='utf-8') as srt_file:
-            srt_file.write(srt_formatted)
-    except KeyError:
-        return 400, "Error: video not avaliable or cannot be download"
-    except ValueError:
-        return 400, "Error: invalide URL"
-    except Exception as e:
-        400, "Error extracting transcript from: " + str(e)
-
-def translate_line(input_str: str, lang: str):
-
-    translator = GoogleTranslator(source= 'english', target=lang)
-    translated_line = translator.translate(input_str)
-
-    return translated_line
-
-### FRONT END ###
-import streamlit as st
-import streamlit_scrollable_textbox as stx
-from transformers import pipeline
-
-text = st.text_area('Enter a YouTube video url! (shorts not allowed)')
-submit = st.button('Generate')  
-if submit:
-    video_file = open(download_video(text,os.getcwd()), 'rb')
-    video_bytes = video_file.read()
-    st.video(video_bytes)
-    captions = get_captions(text)
+def main():
+    import streamlit as st
+    import streamlit_scrollable_textbox as stx
+    from transformers import pipeline
+    working_dir = os.getcwd()
+    final_video_name = 'final_vid.mp4'
+    final_video_path = os.path.join(working_dir,final_video_name)
     
-    col1, col2, col3 = st.columns(3)
-    col1.header("Original")
-    col2.header("Translated")
-    col3.header("Timestamp")
+    ### FRONT END ###
+    text = st.text_area('Enter a YouTube video url! (shorts not allowed)')
+    submit = st.button('Generate')
+
+    if submit:
+        #downloading video, splitting stream, operating on, recombining
+        in_video = download_video(text,working_dir)
+        audio = sep_audio(in_video,working_dir)
+        video = sep_video(in_video,working_dir)
+        audio_to_text = transcribe_audio(audio, working_dir)
+        trans_audio = translate_text(audio_to_text,working_dir, 'german')
+        video_stream = ffmpeg.input(video)
+        audio_stream = ffmpeg.input(text_to_speech(trans_audio, working_dir))
+        final_video = ffmpeg.output(audio_stream,video_stream,final_video_path)
+        final_video.run()
+        #opening our video file and displaying on site
+        video_file = open(final_video_path, 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
+
+main()
+
+# import streamlit as st
+# import streamlit_scrollable_textbox as stx
+# from transformers import pipeline
+
+# text = st.text_area('Enter a YouTube video url! (shorts not allowed)')
+# submit = st.button('Generate')  
+# if submit:
+#     video_file = open(download_video(text,os.getcwd()), 'rb')
+#     video_bytes = video_file.read()
+#     st.video(video_bytes)
+#     captions = get_captions(text)
+    
+#     col1, col2, col3 = st.columns(3)
+#     col1.header("Original")
+#     col2.header("Translated")
+#     col3.header("Timestamp")
 
 
-    caption_string = ""
-    translated_string = ""
+#     caption_string = ""
+#     translated_string = ""
 
-    bar = st.progress(0, text='Translating text...')
-    # for i in range(len(captions)): #prints captions
-    #     caption_line = captions[i]["text"]
-    #     translated_line = translate_line(captions[i]["text"], 'de')
+#     bar = st.progress(0, text='Translating text...')
+#     for i in range(len(captions)): #prints captions
+#         caption_line = captions[i]["text"]
+#         translated_line = translate_line(captions[i]["text"], 'de')
 
-    #     caption_string += caption_line
-    #     translated_string += translated_line
+#         caption_string += caption_line
+#         translated_string += translated_line
 
-    #     percent = i / len(captions)
-    #     bar.progress(percent, text='Translating text... '+str(i)+' out of '+str(len(captions))+ " lines")
+#         percent = i / len(captions)
+#         bar.progress(percent, text='Translating text... '+str(i)+' out of '+str(len(captions))+ " lines")
 
-    #     col1.write(captions[i]["text"], use_column_width=True) #original
-    #     col2.write(translated_line, use_column_width=True) #translated
-    #     col3.write(captions[i]["start"], use_column_width=True) #timestamps
+#         col1.write(captions[i]["text"], use_column_width=True) #original
+#         col2.write(translated_line, use_column_width=True) #translated
+#         col3.write(captions[i]["start"], use_column_width=True) #timestamps
 
-    bar.progress(100, text='Done! '+str(len(captions))+' out of '+str(len(captions))+ " lines")
+#     bar.progress(100, text='Done! '+str(len(captions))+' out of '+str(len(captions))+ " lines")
