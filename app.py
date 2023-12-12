@@ -130,8 +130,11 @@ def translate_text(input_file:str, output_path:str, lang: str):
         print("%s this dir can't be accessed " % output_path)
         
     for i in in_file.readlines(): #reading all files in the 'captions' directory
-        translated_line = translator.translate(i)
-        out_file.write(translated_line+'\n')
+        line = i;
+        #temp fix, skipping 0 in srt files
+        if line[0] != "0":
+            line = translator.translate(i)
+        out_file.write(line+'\n')
 
     print('%s has be sucessfully translated' % input_file)
     in_file.close()
