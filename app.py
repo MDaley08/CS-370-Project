@@ -16,6 +16,7 @@ def download_video(url:str, download_path:str):
         yt = YouTube(url)
         video = yt.streams.get_highest_resolution()
         vid_title = yt.title
+        vid_title = vid_title.replace(" ", '_')
         file_name = vid_title + '.mp4'
         video.download(output_path=download_path, filename=file_name)
     
@@ -122,7 +123,7 @@ def translate_text(input_file:str, output_path:str, lang: str):
         print("%s file was not found " % input_file)
 
     try: #try to create a new file to store translation
-        out_file_name = 'translation_temp.' + input_file.split('.')[-1] # we do a split incase file is abs path then take old name
+        out_file_name = (input_file.split('/')[-1]).split('.')[0] + ' translation.' + input_file.split('.')[-1] # we do a split incase file is abs path then take old name
         out_file_path = os.path.join(output_path, out_file_name)
         out_file = open(out_file_path, 'w', encoding='utf8')
     except FileNotFoundError:
