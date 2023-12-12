@@ -1,13 +1,12 @@
-import whisper
 import os
 import ffmpeg
 import textwrap 
-from flask import Flask
 from pytube import YouTube
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import SRTFormatter
+import whisper
+from whisper.utils import get_writer
 from deep_translator import MyMemoryTranslator
-from deep_translator import GoogleTranslator
 from gtts import gTTS
 import gtts.lang
 
@@ -99,6 +98,10 @@ def transcribe_audio(input_file:str, output_path:str): #eventually add a check f
         file_name = input_file.split('/')[-1]
         file_name = file_name.split('.')[0]
         file_path = os.path.join(output_path, file_name) + ".txt"
+        srt_path = os.path.join(output_path, file_name) + ".srt"
+
+        srt_writer = get_writer("srt", output_path)
+        srt_writer(result, input_file)
         with open(file_path, 'w', encoding='utf-8') as out_file:
             wrapped_text = textwrap.fill(result["text"], width=100)
             out_file.write(wrapped_text)
@@ -107,7 +110,7 @@ def transcribe_audio(input_file:str, output_path:str): #eventually add a check f
         print("%s this dir can't be accessed " % output_path)
     
     out_file.close()
-    return(file_path)
+    return file_path, srt_path
 
 def translate_text(input_file:str, output_path:str, lang: str):
 
@@ -119,7 +122,7 @@ def translate_text(input_file:str, output_path:str, lang: str):
         print("%s file was not found " % input_file)
 
     try: #try to create a new file to store translation
-        out_file_name = (input_file.split('/')[-1]).split('.')[0] + ' translation.txt' # we do a split incase file is abs path then take old name
+        out_file_name = 'translation_temp.' + input_file.split('.')[-1] # we do a split incase file is abs path then take old name
         out_file_path = os.path.join(output_path, out_file_name)
         out_file = open(out_file_path, 'w', encoding='utf8')
     except FileNotFoundError:
@@ -161,7 +164,7 @@ def main():
     working_dir = os.getcwd()
     final_video_name = 'final_vid.mp4'
     final_video_path = os.path.join(working_dir,final_video_name)
-    
+
     ### FRONT END ###
     text = st.text_area('Enter a YouTube video url! (shorts not allowed)')
     submit = st.button('Generate')
@@ -172,9 +175,10 @@ def main():
         audio = sep_audio(in_video,working_dir)
         video = sep_video(in_video,working_dir)
         audio_to_text = transcribe_audio(audio, working_dir)
-        trans_audio = translate_text(audio_to_text,working_dir, 'german')
-        video_stream = ffmpeg.input(video)
-        audio_stream = ffmpeg.input(text_to_speech(trans_audio, working_dir))
+        trans_text = translate_text(audio_to_text[0],working_dir, 'german')
+        trans_caps = translate_text(audio_to_text[1],working_dir, 'german')
+        video_stream = ffmpeg.input(video) .filter("subtitles", str(trans_caps))
+        audio_stream = ffmpeg.input(text_to_speech(trans_text, working_dir))
         final_video = ffmpeg.output(audio_stream,video_stream,final_video_path)
         final_video.run()
         #opening our video file and displaying on site
@@ -183,41 +187,3 @@ def main():
         st.video(video_bytes)
 
 main()
-
-# import streamlit as st
-# import streamlit_scrollable_textbox as stx
-# from transformers import pipeline
-
-# text = st.text_area('Enter a YouTube video url! (shorts not allowed)')
-# submit = st.button('Generate')  
-# if submit:
-#     video_file = open(download_video(text,os.getcwd()), 'rb')
-#     video_bytes = video_file.read()
-#     st.video(video_bytes)
-#     captions = get_captions(text)
-    
-#     col1, col2, col3 = st.columns(3)
-#     col1.header("Original")
-#     col2.header("Translated")
-#     col3.header("Timestamp")
-
-
-#     caption_string = ""
-#     translated_string = ""
-
-#     bar = st.progress(0, text='Translating text...')
-#     for i in range(len(captions)): #prints captions
-#         caption_line = captions[i]["text"]
-#         translated_line = translate_line(captions[i]["text"], 'de')
-
-#         caption_string += caption_line
-#         translated_string += translated_line
-
-#         percent = i / len(captions)
-#         bar.progress(percent, text='Translating text... '+str(i)+' out of '+str(len(captions))+ " lines")
-
-#         col1.write(captions[i]["text"], use_column_width=True) #original
-#         col2.write(translated_line, use_column_width=True) #translated
-#         col3.write(captions[i]["start"], use_column_width=True) #timestamps
-
-#     bar.progress(100, text='Done! '+str(len(captions))+' out of '+str(len(captions))+ " lines")
